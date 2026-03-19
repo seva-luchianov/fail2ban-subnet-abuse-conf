@@ -1,0 +1,20 @@
+[iptables-subnet-abuse]
+enabled  = true
+filter   = iptables-kernel
+logpath  = /var/log/syslog
+backend  = auto
+
+# Trigger behavior for fail2ban host-level state
+findtime = 1
+maxretry = 1
+bantime  = 60
+
+# Custom subnet action
+action   = iptables-subnet-dynamic[
+             subnet_mask="16",
+             threshold="100",
+             window="300",
+             blocktime="7200",
+             chain="INPUT",
+             setname="f2b_subnet_abuse"
+          ]
